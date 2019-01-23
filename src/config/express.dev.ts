@@ -1,7 +1,8 @@
+import { RequestHandler } from "express";
 import morgan from "morgan";
 
-const middlewares = [
-  morgan('dev')
-]
+const middlewares: RequestHandler[] = [
+  morgan("dev"),
+];
 
-export default middlewares
+export default middlewares;

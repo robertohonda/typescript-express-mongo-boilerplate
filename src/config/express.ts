@@ -1,8 +1,10 @@
-import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import express from "express";
 
-import { NODE_ENV } from './config'
+import { NODE_ENV } from "./config";
+
+import UserRouter from "../user/route";
 
 class Express {
 
@@ -10,35 +12,41 @@ class Express {
 
   constructor() {
     this.app = express();
-    this.config();
+    this.useMiddlewares();
+    this.useRoutes();
   }
 
-  private config(): void {
+  // Configure Express middleware.
+  private useMiddlewares(): void {
     // support application/json type post data
     this.app.use(bodyParser.json());
-    //support application/x-www-form-urlencoded post data
+    // support application/x-www-form-urlencoded post data
     this.app.use(bodyParser.urlencoded({ extended: false }));
 
     this.app.use(cors());
 
-    console.log(NODE_ENV)
+    // tslint:disable-next-line:no-console
+    console.log(NODE_ENV);
 
     switch (NODE_ENV) {
-      case 'development':
-        import('./express.dev').then(({ default: devMiddlewares }) => {
-          this.app.use([...devMiddlewares])
-        })
+      case "development":
+        import("./express.dev").then(({ default: devMiddlewares }) => {
+          this.app.use([...devMiddlewares]);
+        });
         break;
-      case 'production':
-        import('./express.prod').then(({ default: prodMiddlewares }) => {
-          this.app.use([...prodMiddlewares])
-        })
+      case "production":
+        import("./express.prod").then(({ default: prodMiddlewares }) => {
+          this.app.use([...prodMiddlewares]);
+        });
         break;
       default:
-        import('./express.dev').then(({ default: devMiddlewares }) => {
-          this.app.use([...devMiddlewares])
-        })
+        import("./express.dev").then(({ default: devMiddlewares }) => {
+          this.app.use([...devMiddlewares]);
+        });
     }
+  }
+
+  private useRoutes(): void {
 
     // this.app.use(express.static("dist"));
 
@@ -47,6 +55,8 @@ class Express {
     // this.app.get("/api/getUsername", (req, res) =>
     //   res.json({ username: os.userInfo().username })
     // );
+
+    this.app.use("/seila", new UserRouter().getRoutes());
 
     // this.app.use("/api", routes);
 
@@ -70,4 +80,4 @@ class Express {
 
 }
 
-export default new Express().app
+export default new Express().app;

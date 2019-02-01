@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import IRouter from "../router/Interface";
+import IRouter from "../../core/router/Interface";
 
 class UserRouter implements IRouter {
 

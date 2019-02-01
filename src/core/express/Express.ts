@@ -1,27 +1,42 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
+import { NODE_ENV, PORT } from "../../config/config";
 
-import { NODE_ENV } from "./config";
-import { PORT } from "./config";
-
-import UserRouter from "../user/Route";
+import UserRouter from "../../modules/user/Route";
+import DevConfig from "./DevConfig";
+import IEnvConfig from "./IEnvConfig";
+import ProdConfig from "./ProdConfig";
 
 class Express {
 
-  private readonly app: express.Application;
+  public app: express.Application;
+  public EnvConfig: IEnvConfig;
 
   constructor() {
     this.app = express();
+
+    switch (NODE_ENV) {
+      case "development":
+        this.EnvConfig = new DevConfig();
+        break;
+      case "production":
+        this.EnvConfig = new ProdConfig();
+        break;
+      default:
+        this.EnvConfig = new DevConfig();
+    }
+
     this.useMiddlewares();
     this.useRoutes();
   }
 
-  public start(): void {
+  public start() {
     this.app.listen(PORT, () => {
       // tslint:disable-next-line:no-console
       console.log(`Express server listening on port ${PORT}`);
     });
+
   }
 
   // Configure Express middleware.
@@ -33,25 +48,7 @@ class Express {
 
     this.app.use(cors());
 
-    // tslint:disable-next-line:no-console
-    console.log(NODE_ENV);
-
-    switch (NODE_ENV) {
-      case "development":
-        import("./express.dev").then(({ default: devMiddlewares }) => {
-          this.app.use([...devMiddlewares]);
-        });
-        break;
-      case "production":
-        import("./express.prod").then(({ default: prodMiddlewares }) => {
-          this.app.use([...prodMiddlewares]);
-        });
-        break;
-      default:
-        import("./express.dev").then(({ default: devMiddlewares }) => {
-          this.app.use([...devMiddlewares]);
-        });
-    }
+    this.app.use(...this.EnvConfig.getMiddlewares());
   }
 
   private useRoutes(): void {

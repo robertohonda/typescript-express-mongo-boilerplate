@@ -11,20 +11,20 @@ import ProdConfig from "./ProdConfig";
 class Express {
 
   public app: express.Application;
-  public EnvConfig: IEnvConfig;
+  public envConfig: IEnvConfig;
 
   constructor() {
     this.app = express();
 
     switch (NODE_ENV) {
       case "development":
-        this.EnvConfig = new DevConfig();
+        this.envConfig = new DevConfig();
         break;
       case "production":
-        this.EnvConfig = new ProdConfig();
+        this.envConfig = new ProdConfig();
         break;
       default:
-        this.EnvConfig = new DevConfig();
+        this.envConfig = new DevConfig();
     }
 
     this.useMiddlewares();
@@ -48,7 +48,7 @@ class Express {
 
     this.app.use(cors());
 
-    this.app.use(...this.EnvConfig.getMiddlewares());
+    this.app.use(...this.envConfig.getMiddlewares());
   }
 
   private useRoutes(): void {
@@ -58,7 +58,7 @@ class Express {
     // this.app.get('/favicon.ico', (req, res) => res.status(204));
 
     // this.app.get("/api/getUsername", (req, res) =>
-    //   res.json({ username: os.userInfo().username })
+    //   res.json({ username: os.userInfo().username }),
     // );
 
     this.app.use("/seila", new UserRouter().getRouter());

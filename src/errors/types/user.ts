@@ -1,0 +1,3 @@
+export const INVALID_USER = "INVALID_USER";
+export const USER_NOT_FOUND = "USER_NOT_FOUND";
+export const WRONG_PASSWORD = "WRONG_PASSWORD";

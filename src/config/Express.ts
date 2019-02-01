@@ -3,17 +3,25 @@ import cors from "cors";
 import express from "express";
 
 import { NODE_ENV } from "./config";
+import { PORT } from "./config";
 
-import UserRouter from "../user/route";
+import UserRouter from "../user/Route";
 
 class Express {
 
-  public app: express.Application;
+  private readonly app: express.Application;
 
   constructor() {
     this.app = express();
     this.useMiddlewares();
     this.useRoutes();
+  }
+
+  public start(): void {
+    this.app.listen(PORT, () => {
+      // tslint:disable-next-line:no-console
+      console.log(`Express server listening on port ${PORT}`);
+    });
   }
 
   // Configure Express middleware.
@@ -56,7 +64,7 @@ class Express {
     //   res.json({ username: os.userInfo().username })
     // );
 
-    this.app.use("/seila", new UserRouter().getRoutes());
+    this.app.use("/seila", new UserRouter().getRouter());
 
     // this.app.use("/api", routes);
 
@@ -80,4 +88,4 @@ class Express {
 
 }
 
-export default new Express().app;
+export default Express;

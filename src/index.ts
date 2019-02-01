@@ -1,7 +1,5 @@
-import { PORT } from "./config/config";
-import app from "./config/express";
+import Express from "./config/Express";
 
-app.listen(PORT, () => {
-  // tslint:disable-next-line:no-console
-  console.log(`Express server listening on port ${PORT}`);
-});
+const app = new Express();
+
+app.start();

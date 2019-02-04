@@ -1,6 +1,11 @@
 {
-  "extends": ["tslint:recommended", "tslint-eslint-rules"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-eslint-rules"
+  ],
   "linterOptions": {
-    "exclude": ["node_modules/**/*.ts"]
+    "exclude": [
+      "node_modules/**/*.ts"
+    ]
   }
 }

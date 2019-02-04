@@ -1,8 +1,7 @@
-
 interface IAPIError {
   status: number;
-  type: string;
-  message: any;
+  message: string;
+  type?: string;
   stack?: any;
   errors?: any;
 }

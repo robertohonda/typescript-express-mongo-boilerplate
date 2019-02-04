@@ -1,19 +1,18 @@
-import { Request, Response, Router } from "express";
-import IRouter from "../../core/router/Interface";
+import { Router } from "express";
+import IRouter from "../../core/router/IRouter";
+import UserController from "./Controller";
 
 class UserRouter implements IRouter {
-
   private readonly router: Router;
+  private readonly user: UserController;
   constructor() {
     this.router = Router();
+    this.user = new UserController();
   }
 
-  public getRouter(): Router {
+  public getRouter = (): Router => {
     const { router } = this;
-    router.route("/")
-      .get(
-        (req: Request, res: Response) => res.send("oooi"),
-        );
+    router.route("/").get(this.user.create);
     return router;
   }
 }

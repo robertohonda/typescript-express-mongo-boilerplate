@@ -4,17 +4,19 @@ import express from "express";
 import { NODE_ENV, PORT } from "../../config/config";
 
 import UserRouter from "../../modules/user/Route";
+import ErrorMiddleware from "../middlewares/error/Error";
 import DevConfig from "./DevConfig";
 import IEnvConfig from "./IEnvConfig";
 import ProdConfig from "./ProdConfig";
 
 class Express {
-
-  public app: express.Application;
-  public envConfig: IEnvConfig;
+  public readonly app: express.Application;
+  public readonly envConfig: IEnvConfig;
+  private readonly error: ErrorMiddleware;
 
   constructor() {
     this.app = express();
+    this.error = new ErrorMiddleware();
 
     switch (NODE_ENV) {
       case "development":
@@ -31,16 +33,15 @@ class Express {
     this.useRoutes();
   }
 
-  public start() {
+  public start = (): void => {
     this.app.listen(PORT, () => {
       // tslint:disable-next-line:no-console
       console.log(`Express server listening on port ${PORT}`);
     });
-
   }
 
   // Configure Express middleware.
-  private useMiddlewares(): void {
+  private useMiddlewares = (): void => {
     // support application/json type post data
     this.app.use(bodyParser.json());
     // support application/x-www-form-urlencoded post data
@@ -51,8 +52,7 @@ class Express {
     this.app.use(...this.envConfig.getMiddlewares());
   }
 
-  private useRoutes(): void {
-
+  private useRoutes = (): void => {
     // this.app.use(express.static("dist"));
 
     // this.app.get('/favicon.ico', (req, res) => res.status(204));
@@ -61,15 +61,15 @@ class Express {
     //   res.json({ username: os.userInfo().username }),
     // );
 
-    this.app.use("/seila", new UserRouter().getRouter());
+    this.app.use("/api/seila", new UserRouter().getRouter());
 
     // this.app.use("/api", routes);
 
-    // // if error is not an instanceOf APIError, convert it.
-    // this.app.use('/api', error.converter);
+    // if error is not an instanceOf APIError, convert it.
+    this.app.use("/api", this.error.handleError);
 
-    // // catch 404 and forward to error handler
-    // this.app.use('/api', error.notFound);
+    // catch 404 and forward to error handler
+    this.app.use("/api", this.error.handleNotFound);
 
     // // handle every other route with index.html, which will contain
     // // a script tag to your application's JavaScript file(s).
@@ -80,9 +80,7 @@ class Express {
     //     }
     //   });
     // });
-
   }
-
 }
 
 export default Express;

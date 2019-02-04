@@ -3,11 +3,8 @@ import morgan from "morgan";
 import IEnvConfig from "./IEnvConfig";
 
 class ProdConfig implements IEnvConfig {
-
-  public getMiddlewares(): RequestHandler[] {
-    const middlewares = [
-      morgan("combined"),
-    ];
+  public getMiddlewares = (): RequestHandler[] => {
+    const middlewares = [morgan("combined")];
 
     return middlewares;
   }

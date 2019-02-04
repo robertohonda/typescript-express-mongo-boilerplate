@@ -3,8 +3,9 @@ import cors from "cors";
 import express from "express";
 import { NODE_ENV, PORT } from "../../config/config";
 
-import UserRouter from "../../modules/user/Route";
+// import UserRouter from "../../modules/user/Router";
 import ErrorMiddleware from "../middlewares/error/Error";
+import Router from "../router/Router";
 import DevConfig from "./DevConfig";
 import IEnvConfig from "./IEnvConfig";
 import ProdConfig from "./ProdConfig";
@@ -13,10 +14,12 @@ class Express {
   public readonly app: express.Application;
   public readonly envConfig: IEnvConfig;
   private readonly error: ErrorMiddleware;
+  private readonly router: Router;
 
   constructor() {
     this.app = express();
     this.error = new ErrorMiddleware();
+    this.router = new Router();
 
     switch (NODE_ENV) {
       case "development":
@@ -33,7 +36,7 @@ class Express {
     this.useRoutes();
   }
 
-  public start = (): void => {
+  public start = () => {
     this.app.listen(PORT, () => {
       // tslint:disable-next-line:no-console
       console.log(`Express server listening on port ${PORT}`);
@@ -41,7 +44,7 @@ class Express {
   }
 
   // Configure Express middleware.
-  private useMiddlewares = (): void => {
+  private useMiddlewares = () => {
     // support application/json type post data
     this.app.use(bodyParser.json());
     // support application/x-www-form-urlencoded post data
@@ -52,7 +55,7 @@ class Express {
     this.app.use(...this.envConfig.getMiddlewares());
   }
 
-  private useRoutes = (): void => {
+  private useRoutes = () => {
     // this.app.use(express.static("dist"));
 
     // this.app.get('/favicon.ico', (req, res) => res.status(204));
@@ -61,9 +64,9 @@ class Express {
     //   res.json({ username: os.userInfo().username }),
     // );
 
-    this.app.use("/api/seila", new UserRouter().getRouter());
+    // this.app.use("/api/seila", new UserRouter().getRouter());
 
-    // this.app.use("/api", routes);
+    this.app.use("/api", this.router.getRouter());
 
     // if error is not an instanceOf APIError, convert it.
     this.app.use("/api", this.error.handleError);

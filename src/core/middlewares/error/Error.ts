@@ -5,11 +5,11 @@ import { NOT_FOUND as NOT_FOUND_Type } from "../../../errors/types/standard";
 import IError from "./IError";
 
 class ErrorMiddleware implements IError {
-  public handleError = (err: APIError, req: Request, res: Response, next: NextFunction): void => {
+  public handleError = (err: APIError, req: Request, res: Response, next: NextFunction) => {
     this.handleResponse(err, res);
   }
 
-  public handleNotFound = (req: Request, res: Response, next: NextFunction): void => {
+  public handleNotFound = (req: Request, res: Response, next: NextFunction) => {
     const err = new APIError({
       message: "Not found",
       status: NOT_FOUND_STATUS,
@@ -19,7 +19,7 @@ class ErrorMiddleware implements IError {
     this.handleResponse(err, res);
   }
 
-  public handleResponse = (err: APIError, res: Response): void => {
+  public handleResponse = (err: APIError, res: Response) => {
     const apiError = new APIError(err);
 
     const response = {

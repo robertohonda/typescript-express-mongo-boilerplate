@@ -10,7 +10,7 @@ class UserRouter implements IRouter {
     this.user = new UserController();
   }
 
-  public getRouter = (): Router => {
+  public getRouter = () => {
     const { router } = this;
     router.route("/").get(this.user.create);
     return router;

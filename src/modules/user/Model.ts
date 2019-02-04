@@ -1,5 +1,5 @@
 class UserModel {
-  public create = async (): Promise<string> => {
+  public create = async () => {
     return "User Created";
   }
 }

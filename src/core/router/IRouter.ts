@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 interface IRouter {
-  getRouter(): Router;
+  getRouter: () => Router;
 }
 
 export default IRouter;

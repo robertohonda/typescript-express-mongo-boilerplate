@@ -9,9 +9,10 @@ import Mongoose from "../mongo/Mongoose";
 import Router from "../router/Router";
 import DevConfig from "./DevConfig";
 import IEnvConfig from "./IEnvConfig";
+import IExpress from "./IExpress";
 import ProdConfig from "./ProdConfig";
 
-class Express {
+class Express implements IExpress {
   public readonly app: express.Application;
   public readonly db: Mongoose;
   private readonly envConfig: IEnvConfig;
@@ -38,7 +39,7 @@ class Express {
     this.useRoutes();
   }
 
-  public start = () => {
+  public start = (): void => {
     this.app.listen(PORT, () => {
       // tslint:disable-next-line:no-console
       console.log(`Express server listening on port ${PORT}`);
@@ -46,7 +47,7 @@ class Express {
   }
 
   // Configure Express middleware.
-  private useMiddlewares = () => {
+  private useMiddlewares = (): void => {
     // support application/json type post data
     this.app.use(bodyParser.json());
     // support application/x-www-form-urlencoded post data
@@ -57,7 +58,7 @@ class Express {
     this.app.use(...this.envConfig.getMiddlewares());
   }
 
-  private useRoutes = () => {
+  private useRoutes = (): void => {
     // this.app.use(express.static("dist"));
 
     // this.app.get('/favicon.ico', (req, res) => res.status(204));

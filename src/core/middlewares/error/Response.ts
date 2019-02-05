@@ -1,6 +1,7 @@
 import APIError from "errors/error";
+import IResponse from "./IResponse";
 
-class Response {
+class Response implements IResponse {
   public code: number;
   public type: string;
   public message: string;

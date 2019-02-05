@@ -1,7 +1,14 @@
-class UserModel {
-  public create = async () => {
-    return "User Created";
+import mongoose from "mongoose";
+import UserSchema from "./Schema";
+
+class UserMondel {
+  public userModel: mongoose.Model<mongoose.Document>;
+  constructor() {
+    this.userModel = mongoose.model("User", new UserSchema().getUserSchema());
+  }
+  public getUserModel = () => {
+    return this.userModel;
   }
 }
 
-export default UserModel;
+export default UserMondel;

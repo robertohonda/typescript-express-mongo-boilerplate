@@ -5,6 +5,7 @@ import { NODE_ENV, PORT } from "../../config/config";
 
 // import UserRouter from "../../modules/user/Router";
 import ErrorMiddleware from "../middlewares/error/Error";
+import Mongoose from "../mongo/Mongoose";
 import Router from "../router/Router";
 import DevConfig from "./DevConfig";
 import IEnvConfig from "./IEnvConfig";
@@ -12,12 +13,14 @@ import ProdConfig from "./ProdConfig";
 
 class Express {
   public readonly app: express.Application;
-  public readonly envConfig: IEnvConfig;
+  public readonly db: Mongoose;
+  private readonly envConfig: IEnvConfig;
   private readonly error: ErrorMiddleware;
   private readonly router: Router;
 
   constructor() {
     this.app = express();
+    this.db = new Mongoose();
     this.error = new ErrorMiddleware();
     this.router = new Router();
 
@@ -31,7 +34,6 @@ class Express {
       default:
         this.envConfig = new DevConfig();
     }
-
     this.useMiddlewares();
     this.useRoutes();
   }

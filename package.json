@@ -1,7 +1,7 @@
 {
-  "name": "express-typescript-boilerplate",
+  "name": "typescript-express-mongo-boilerplate",
   "version": "1.0.0",
-  "description": "express-typescript-boilerplate",
+  "description": "typescript-express-mongo-boilerplate",
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.18.3",

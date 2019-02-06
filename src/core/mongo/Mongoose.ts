@@ -5,12 +5,11 @@ class Database {
   private mongoose: mongoose.Mongoose;
   constructor() {
     this.mongoose = mongoose;
-    this.setup();
   }
-  private setup = () => {
+  public setup = () => {
     this.mongoose.Promise = global.Promise;
     this.mongoose.connect(DB_URI, { useNewUrlParser: true });
   }
 }
 
-export default Database;
+export default new Database();

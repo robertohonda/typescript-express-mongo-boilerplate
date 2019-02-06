@@ -9,4 +9,4 @@ class DevConfig implements IEnvConfig {
   }
 }
 
-export default DevConfig;
+export default new DevConfig();

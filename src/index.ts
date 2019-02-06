@@ -1,5 +1,3 @@
-import Express from "./core/express";
-
-const app = new Express();
+import app from "./core/express";
 
 app.start();

@@ -4,9 +4,10 @@ import express from "express";
 import { NODE_ENV, PORT } from "../../config/config";
 
 // import UserRouter from "../../modules/user/Router";
-import ErrorMiddleware from "../middlewares/error/Error";
-import Mongoose from "../mongo/Mongoose";
-import Router from "../router/Router";
+import errorMiddleware from "../middlewares/error/Error";
+import mongoose from "../mongo/Mongoose";
+import Passport from "../passport/Passport";
+import mainRouter from "../router/Router";
 import DevConfig from "./DevConfig";
 import IEnvConfig from "./IEnvConfig";
 import IExpress from "./IExpress";
@@ -14,27 +15,25 @@ import ProdConfig from "./ProdConfig";
 
 class Express implements IExpress {
   public readonly app: express.Application;
-  public readonly db: Mongoose;
+  public readonly passport: Passport;
   private readonly envConfig: IEnvConfig;
-  private readonly error: ErrorMiddleware;
-  private readonly router: Router;
 
   constructor() {
     this.app = express();
-    this.db = new Mongoose();
-    this.error = new ErrorMiddleware();
-    this.router = new Router();
+    this.passport = new Passport();
 
     switch (NODE_ENV) {
       case "development":
-        this.envConfig = new DevConfig();
+        this.envConfig = DevConfig;
         break;
       case "production":
-        this.envConfig = new ProdConfig();
+        this.envConfig = ProdConfig;
         break;
       default:
-        this.envConfig = new DevConfig();
+        this.envConfig = DevConfig;
     }
+
+    this.config();
     this.useMiddlewares();
     this.useRoutes();
   }
@@ -46,6 +45,10 @@ class Express implements IExpress {
     });
   }
 
+  private config = () => {
+    mongoose.setup();
+  }
+
   // Configure Express middleware.
   private useMiddlewares = (): void => {
     // support application/json type post data
@@ -54,6 +57,8 @@ class Express implements IExpress {
     this.app.use(bodyParser.urlencoded({ extended: false }));
 
     this.app.use(cors());
+
+    this.app.use(this.passport.getPassport());
 
     this.app.use(...this.envConfig.getMiddlewares());
   }
@@ -69,13 +74,13 @@ class Express implements IExpress {
 
     // this.app.use("/api/seila", new UserRouter().getRouter());
 
-    this.app.use("/api", this.router.getRouter());
+    this.app.use("/api", mainRouter);
 
     // if error is not an instanceOf APIError, convert it.
-    this.app.use("/api", this.error.handleError);
+    this.app.use("/api", errorMiddleware.handleError);
 
     // catch 404 and forward to error handler
-    this.app.use("/api", this.error.handleNotFound);
+    this.app.use("/api", errorMiddleware.handleNotFound);
 
     // // handle every other route with index.html, which will contain
     // // a script tag to your application's JavaScript file(s).
@@ -89,4 +94,4 @@ class Express implements IExpress {
   }
 }
 
-export default Express;
+export default new Express();

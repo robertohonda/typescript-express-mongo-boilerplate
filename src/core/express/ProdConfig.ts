@@ -9,4 +9,4 @@ class ProdConfig implements IEnvConfig {
   }
 }
 
-export default ProdConfig;
+export default new ProdConfig();

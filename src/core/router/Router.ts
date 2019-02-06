@@ -12,8 +12,8 @@ class MainRouter implements IRouter {
 
   public getRouter = () => {
     return this.router
-      .use("/user", this.userRouter.getRouter());
+      .use("/", this.userRouter.getRouter());
   }
 }
 
-export default MainRouter;
+export default new MainRouter().getRouter();

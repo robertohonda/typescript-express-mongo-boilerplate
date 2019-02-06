@@ -41,4 +41,4 @@ class ErrorMiddleware implements IError {
   }
 }
 
-export default ErrorMiddleware;
+export default new ErrorMiddleware();

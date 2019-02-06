@@ -4,10 +4,6 @@ import jwtStrategy from "./jwtStrategy";
 import localStrategy from "./localStrategy";
 import { JWT, LOCAL_LOGIN } from "./types";
 
-interface IUser {
-  _id: number;
-}
-
 class Passport {
   constructor() {
     this.config();
@@ -18,7 +14,7 @@ class Passport {
   private config = () => {
     passport.use(LOCAL_LOGIN, localStrategy);
     passport.use(JWT, jwtStrategy);
-    passport.serializeUser((user: IUser, done) => {
+    passport.serializeUser((user: { _id: number }, done) => {
       // tslint:disable-next-line:no-console
       console.log(user);
       done(null, user._id);

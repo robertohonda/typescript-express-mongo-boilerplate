@@ -1,6 +1,6 @@
 import { INTERNAL_SERVER_ERROR as INTERNAL_SERVER_ERROR_STATUS } from "http-status";
 import { INTERNAL_SERVER_ERROR as INTERNAL_SERVER_ERROR_TYPE } from "../types/standard";
-import IAPIError from "./Interface";
+import IAPIError from "./IAPIError";
 
 class APIError extends Error implements IAPIError {
   public status: number;

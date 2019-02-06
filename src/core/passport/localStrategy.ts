@@ -10,7 +10,6 @@ class LocalStrategy {
   constructor() {
     this.localStrategy = new LocalPassport.Strategy({
       passwordField: "password",
-      session: false,
       usernameField: "email",
     }, this.callback);
   }

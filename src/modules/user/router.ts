@@ -14,7 +14,7 @@ class UserRouter implements IRouter {
     router.route("/signup")
       .post(userController.signUp);
     router.route("/signin")
-      .post(passport.authenticate("local-login"), userController.signIn);
+      .post(passport.authenticate("local-login", { session: false }), userController.signIn);
     router.route("/seila")
       .post(passport.authenticate("jwt", { session: false }), (req, res, next) => {
         res.status(200).send(req.user);

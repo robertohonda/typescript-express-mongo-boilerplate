@@ -4,7 +4,7 @@ import express from "express";
 import { NODE_ENV, PORT } from "../../config/config";
 
 // import UserRouter from "../../modules/user/Router";
-import errorMiddleware from "../middlewares/error";
+import ErrorMiddleware from "../middlewares/error";
 import mongoose from "../mongo/mongoose";
 import passport from "../passport";
 import mainRouter from "../router";
@@ -75,10 +75,10 @@ class Express implements IExpress {
     this.app.use("/api", mainRouter);
 
     // if error is not an instanceOf APIError, convert it.
-    this.app.use("/api", errorMiddleware.handleError);
+    this.app.use("/api", ErrorMiddleware.handleError);
 
     // catch 404 and forward to error handler
-    this.app.use("/api", errorMiddleware.handleNotFound);
+    this.app.use("/api", ErrorMiddleware.handleNotFound);
 
     // // handle every other route with index.html, which will contain
     // // a script tag to your application's JavaScript file(s).

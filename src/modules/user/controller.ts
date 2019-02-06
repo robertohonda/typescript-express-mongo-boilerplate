@@ -18,8 +18,6 @@ class UserController extends Controller implements IController {
 
   public signIn = async (req: Request, res: Response, next: NextFunction) => {
     const { user } = req;
-    // tslint:disable-next-line:no-console
-    console.log(user);
     return this.handleResponse(UserService.signIn(user), req, res, next);
   }
 }

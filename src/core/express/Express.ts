@@ -4,33 +4,31 @@ import express from "express";
 import { NODE_ENV, PORT } from "../../config/config";
 
 // import UserRouter from "../../modules/user/Router";
-import errorMiddleware from "../middlewares/error/Error";
-import mongoose from "../mongo/Mongoose";
-import Passport from "../passport/Passport";
-import mainRouter from "../router/Router";
-import DevConfig from "./DevConfig";
+import errorMiddleware from "../middlewares/error";
+import mongoose from "../mongo/mongoose";
+import passport from "../passport";
+import mainRouter from "../router";
+import devConfig from "./devConfig";
 import IEnvConfig from "./IEnvConfig";
 import IExpress from "./IExpress";
-import ProdConfig from "./ProdConfig";
+import prodConfig from "./prodConfig";
 
 class Express implements IExpress {
   public readonly app: express.Application;
-  public readonly passport: Passport;
   private readonly envConfig: IEnvConfig;
 
   constructor() {
     this.app = express();
-    this.passport = new Passport();
 
     switch (NODE_ENV) {
       case "development":
-        this.envConfig = DevConfig;
+        this.envConfig = devConfig;
         break;
       case "production":
-        this.envConfig = ProdConfig;
+        this.envConfig = prodConfig;
         break;
       default:
-        this.envConfig = DevConfig;
+        this.envConfig = devConfig;
     }
 
     this.config();
@@ -58,7 +56,7 @@ class Express implements IExpress {
 
     this.app.use(cors());
 
-    this.app.use(this.passport.getPassport());
+    this.app.use(passport.initialize());
 
     this.app.use(...this.envConfig.getMiddlewares());
   }

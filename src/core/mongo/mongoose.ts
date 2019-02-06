@@ -7,6 +7,7 @@ class Database {
     this.mongoose = mongoose;
   }
   public setup = () => {
+    this.mongoose.set("useCreateIndex", true);
     this.mongoose.Promise = global.Promise;
     this.mongoose.connect(DB_URI, { useNewUrlParser: true });
   }

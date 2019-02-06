@@ -1,7 +1,7 @@
 import { Router } from "express";
-import passport from "passport";
+import passport from "../../core/passport";
 import IRouter from "../../core/router/IRouter";
-import userController from "./Controller";
+import userController from "./controller";
 
 class UserRouter implements IRouter {
   private readonly router: Router;
@@ -16,13 +16,11 @@ class UserRouter implements IRouter {
     router.route("/signin")
       .post(passport.authenticate("local-login"), userController.signIn);
     router.route("/seila")
-      .post(passport.authenticate("jwt"), (req, res, next) => {
-        // tslint:disable-next-line:no-console
-        console.log(req);
+      .post(passport.authenticate("jwt", { session: false }), (req, res, next) => {
         res.status(200).send(req.user);
       });
     return router;
   }
 }
 
-export default UserRouter;
+export default new UserRouter().getRouter();

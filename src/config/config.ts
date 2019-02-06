@@ -6,7 +6,7 @@ export const PORT = process.env.PORT;
 export const DB_URI = process.env.DB_URI || "";
 export const JWT_SECRET = process.env.JWT_SECRET || "";
 export const JWT_OPTIONS = {
-  expiresIn: 60,
+  expiresIn: 600,
 };
 
 export default {

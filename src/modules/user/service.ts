@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { JWT_OPTIONS, JWT_SECRET } from "../../config/config";
 import IUser from "./Interface";
-import UserModel from "./Model";
+import UserModel from "./model";
 
 class UserService {
   private readonly user: mongoose.Model<IUser>;
@@ -34,4 +34,4 @@ class UserService {
   }
 }
 
-export default UserService;
+export default new UserService();

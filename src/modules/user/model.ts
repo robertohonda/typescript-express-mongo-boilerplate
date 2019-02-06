@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import IUser from "./Interface";
-import UserSchema from "./Schema";
+import UserSchema from "./schema";
 
 class UserModel {
   public userModel: mongoose.Model<IUser>;

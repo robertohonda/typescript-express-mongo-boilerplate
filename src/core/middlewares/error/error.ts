@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { NOT_FOUND as NOT_FOUND_STATUS } from "http-status";
+import { NODE_ENV } from "../../../config/config";
 import APIError from "../../../errors/error";
 import { NOT_FOUND as NOT_FOUND_Type } from "../../../errors/types/standard";
 import IError from "./IError";
@@ -30,11 +31,9 @@ class ErrorMiddleware implements IError {
       type: apiError.type,
     };
 
-    /*
-    if (env !== 'development') {
+    if (NODE_ENV !== "development") {
       delete response.stack;
     }
-    */
 
     res.status(apiError.status);
     res.json(response);

@@ -1,17 +1,18 @@
-import bodyParser from "body-parser";
-import cors from "cors";
+// Express and mongoose must be load first
 import express from "express";
-import { NODE_ENV, PORT } from "../../config/config";
+import Mongoose from "../mongo/mongoose";
 
-// import UserRouter from "../../modules/user/Router";
-import ErrorMiddleware from "../middlewares/error";
-import mongoose from "../mongo/mongoose";
-import passport from "../passport";
-import mainRouter from "../router";
-import devConfig from "./devConfig";
+import { NODE_ENV, PORT } from "../../config/config";
 import IEnvConfig from "./IEnvConfig";
 import IExpress from "./IExpress";
-import prodConfig from "./prodConfig";
+
+import bodyParser from "body-parser";
+import cors from "cors";
+import ErrorMiddleware from "../middlewares/error";
+import Passport from "../passport";
+import MainRouter from "../router";
+import DevConfig from "./devConfig";
+import ProdConfig from "./prodConfig";
 
 class Express implements IExpress {
   public readonly app: express.Application;
@@ -22,15 +23,14 @@ class Express implements IExpress {
 
     switch (NODE_ENV) {
       case "development":
-        this.envConfig = devConfig;
+        this.envConfig = DevConfig;
         break;
       case "production":
-        this.envConfig = prodConfig;
+        this.envConfig = ProdConfig;
         break;
       default:
-        this.envConfig = devConfig;
+        this.envConfig = DevConfig;
     }
-
     this.config();
     this.useMiddlewares();
     this.useRoutes();
@@ -44,7 +44,7 @@ class Express implements IExpress {
   }
 
   private config = () => {
-    mongoose.setup();
+    Mongoose.connect();
   }
 
   // Configure Express middleware.
@@ -56,7 +56,7 @@ class Express implements IExpress {
 
     this.app.use(cors());
 
-    this.app.use(passport.initialize());
+    this.app.use(Passport.initialize());
 
     this.app.use(...this.envConfig.getMiddlewares());
   }
@@ -72,7 +72,7 @@ class Express implements IExpress {
 
     // this.app.use("/api/seila", new UserRouter().getRouter());
 
-    this.app.use("/api", mainRouter);
+    this.app.use("/api", MainRouter);
 
     // if error is not an instanceOf APIError, convert it.
     this.app.use("/api", ErrorMiddleware.handleError);

@@ -1,7 +1,7 @@
 import passport from "passport";
 import UserService from "../../modules/user/service";
-import jwtStrategy from "./jwtStrategy";
-import localStrategy from "./localStrategy";
+import JWTStrategy from "./jwtStrategy";
+import LocalStrategy from "./localStrategy";
 import { JWT, LOCAL_LOGIN } from "./types";
 
 class Passport {
@@ -12,8 +12,8 @@ class Passport {
   public getPassport = () => passport;
 
   private config = () => {
-    passport.use(LOCAL_LOGIN, localStrategy);
-    passport.use(JWT, jwtStrategy);
+    passport.use(LOCAL_LOGIN, LocalStrategy);
+    passport.use(JWT, JWTStrategy);
     passport.serializeUser((user: { _id: number }, done) => {
       // tslint:disable-next-line:no-console
       console.log(user);

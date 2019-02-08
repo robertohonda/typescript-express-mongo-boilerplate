@@ -10,11 +10,11 @@ class UserService {
     this.user = UserModel;
   }
 
-  public signUp = async (user: any) => {
+  public signUp = async (user: IUser): Promise<IUser> => {
     return this.user.create(user);
   }
 
-  public signIn = async (user: any) => {
+  public signIn = async (user: IUser): Promise<IResponseSignIn> => {
     const payload = {
       _id: user._id,
     };
@@ -32,6 +32,12 @@ class UserService {
   public list = (params?: any): Promise<IUser[]> => {
     return this.user.find(params).exec();
   }
+}
+
+interface IResponseSignIn {
+  expiresIn: number;
+  token: string;
+  user: IUser;
 }
 
 export default new UserService();

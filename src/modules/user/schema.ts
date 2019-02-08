@@ -34,11 +34,11 @@ class UserSchema {
     this.config();
   }
 
-  public getUserSchema = () => {
+  public getUserSchema = (): mongoose.Schema => {
     return this.userSchema;
   }
 
-  private config = () => {
+  private config = (): void => {
     this.userSchema.pre<IUser>("save", async function(next) {
       const user = this;
 

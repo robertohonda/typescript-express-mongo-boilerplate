@@ -7,7 +7,7 @@ class UserModel {
   constructor() {
     this.userModel = mongoose.model<IUser>("User", UserSchema);
   }
-  public getUserModel = () => {
+  public getUserModel = (): mongoose.Model<IUser> => {
     return this.userModel;
   }
 }

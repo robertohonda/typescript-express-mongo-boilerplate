@@ -8,10 +8,10 @@ class Database {
     this.mongoose = mongoose;
     this.setup();
   }
-  public connect() {
+  public connect = (): void => {
     this.mongoose.connect(DB_URI, { useNewUrlParser: true });
   }
-  private setup = () => {
+  private setup = (): void => {
     this.mongoose.plugin(uniqueValidator);
     this.mongoose.set("useCreateIndex", true);
     this.mongoose.Promise = global.Promise;

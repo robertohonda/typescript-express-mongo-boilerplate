@@ -8,7 +8,7 @@ class MainRouter implements IRouter {
     this.router = Router();
   }
 
-  public getRouter = () => {
+  public getRouter = (): Router => {
     return this.router
       .use("/", UserRouter);
   }

@@ -9,10 +9,10 @@ import IExpress from "./IExpress";
 import bodyParser from "body-parser";
 import cors from "cors";
 import ErrorMiddleware from "../middlewares/error";
-import Passport from "../passport";
-import MainRouter from "../router";
-import DevConfig from "./devConfig";
-import ProdConfig from "./prodConfig";
+import passport from "../passport";
+import mainRouter from "../router";
+import devConfig from "./devConfig";
+import prodConfig from "./prodConfig";
 
 class Express implements IExpress {
   public readonly app: express.Application;
@@ -23,13 +23,13 @@ class Express implements IExpress {
 
     switch (NODE_ENV) {
       case "development":
-        this.envConfig = DevConfig;
+        this.envConfig = devConfig;
         break;
       case "production":
-        this.envConfig = ProdConfig;
+        this.envConfig = prodConfig;
         break;
       default:
-        this.envConfig = DevConfig;
+        this.envConfig = devConfig;
     }
     this.config();
     this.useMiddlewares();
@@ -43,7 +43,7 @@ class Express implements IExpress {
     });
   }
 
-  private config = () => {
+  private config = (): void => {
     Mongoose.connect();
   }
 
@@ -56,7 +56,7 @@ class Express implements IExpress {
 
     this.app.use(cors());
 
-    this.app.use(Passport.initialize());
+    this.app.use(passport.initialize());
 
     this.app.use(...this.envConfig.getMiddlewares());
   }
@@ -72,7 +72,7 @@ class Express implements IExpress {
 
     // this.app.use("/api/seila", new UserRouter().getRouter());
 
-    this.app.use("/api", MainRouter);
+    this.app.use("/api", mainRouter);
 
     // if error is not an instanceOf APIError, convert it.
     this.app.use("/api", ErrorMiddleware.handleError);

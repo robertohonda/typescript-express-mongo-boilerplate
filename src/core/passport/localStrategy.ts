@@ -1,24 +1,24 @@
 import { OK } from "http-status";
 import IUser from "modules/user/Interface";
-import LocalPassport from "passport-local";
+import { Strategy } from "passport-local";
 import APIError from "../../errors/error/APIError";
 import { USER_NOT_FOUND, WRONG_PASSWORD } from "../../errors/types/user";
 import UserService from "../../modules/user/service";
 
 class LocalStrategy {
-  private readonly localStrategy: LocalPassport.Strategy;
+  private readonly localStrategy: Strategy;
   constructor() {
-    this.localStrategy = new LocalPassport.Strategy({
+    this.localStrategy = new Strategy({
       passwordField: "password",
       usernameField: "email",
     }, this.callback);
   }
 
-  public getLocalStrategy = () => {
+  public getLocalStrategy = (): Strategy => {
     return this.localStrategy;
   }
 
-  private callback = async (email: string, password: string, done: any) => {
+  private callback = async (email: string, password: string, done: any): Promise<any> => {
     try {
       const user: IUser = (await UserService.list({ email }))[0];
 

@@ -12,7 +12,7 @@ abstract class Controller {
       });
   }
 
-  private checkError = (error: APIError) => {
+  private checkError = (error: APIError): APIError => {
     const apiError = new APIError(error);
 
     if (error.name === "ValidationError") {

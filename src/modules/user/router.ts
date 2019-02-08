@@ -1,5 +1,5 @@
 import { Router } from "express";
-import passport from "../../core/passport";
+import passport from "passport";
 import IRouter from "../../core/router/IRouter";
 import userController from "./controller";
 
@@ -9,7 +9,7 @@ class UserRouter implements IRouter {
     this.router = Router();
   }
 
-  public getRouter = () => {
+  public getRouter = (): Router => {
     const { router } = this;
     router.route("/signup")
       .post(userController.signUp);

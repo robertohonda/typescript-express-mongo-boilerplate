@@ -8,17 +8,18 @@ class UserController extends Controller implements IController {
     super();
   }
 
-  public list = async (req: Request, res: Response, next: NextFunction) =>
-    this.handleResponse(UserService.list(), req, res, next)
-
-  public signUp = async (req: Request, res: Response, next: NextFunction) => {
-    const user = req.body;
-    return this.handleResponse(UserService.signUp(user), req, res, next);
+  public list = (req: Request, res: Response, next: NextFunction): void => {
+    this.handleResponse(UserService.list(), req, res, next);
   }
 
-  public signIn = async (req: Request, res: Response, next: NextFunction) => {
+  public signUp = (req: Request, res: Response, next: NextFunction): void => {
+    const user = req.body;
+    this.handleResponse(UserService.signUp(user), req, res, next);
+  }
+
+  public signIn = (req: Request, res: Response, next: NextFunction): void => {
     const { user } = req;
-    return this.handleResponse(UserService.signIn(user), req, res, next);
+    this.handleResponse(UserService.signIn(user), req, res, next);
   }
 }
 

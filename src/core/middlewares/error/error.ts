@@ -21,21 +21,13 @@ class ErrorMiddleware implements IError {
   }
 
   public handleResponse = (err: APIError, res: Response): void => {
-    const apiError = new APIError(err);
-
-    const response = {
-      code: apiError.status,
-      errors: apiError.errors,
-      message: apiError.message,
-      stack: apiError.stack,
-      type: apiError.type,
-    };
+    const response = new APIError(err);
 
     if (NODE_ENV !== "development") {
       delete response.stack;
     }
 
-    res.status(apiError.status);
+    res.status(response.status);
     res.json(response);
   }
 }

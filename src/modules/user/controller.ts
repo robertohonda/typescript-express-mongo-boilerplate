@@ -4,10 +4,6 @@ import IController from "../../core/controller/IControler";
 import UserService from "./service";
 
 class UserController extends Controller implements IController {
-  constructor() {
-    super();
-  }
-
   public list = (req: Request, res: Response, next: NextFunction): void => {
     this.handleResponse(UserService.list(), req, res, next);
   }

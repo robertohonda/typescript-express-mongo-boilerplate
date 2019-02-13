@@ -1,17 +1,12 @@
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 import { JWT_OPTIONS, JWT_SECRET } from "../../config/config";
 import IUser from "./Interface";
 import UserModel from "./model";
 
 class UserService {
-  private readonly user: mongoose.Model<IUser>;
-  constructor() {
-    this.user = UserModel;
-  }
 
   public signUp = async (user: IUser): Promise<IUser> => {
-    return this.user.create(user);
+    return UserModel.create(user);
   }
 
   public signIn = async (user: IUser): Promise<IResponseSignIn> => {
@@ -30,7 +25,7 @@ class UserService {
   }
 
   public list = (params?: any): Promise<IUser[]> => {
-    return this.user.find(params).exec();
+    return UserModel.find(params).exec();
   }
 }
 

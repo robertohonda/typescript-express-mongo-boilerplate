@@ -6,21 +6,19 @@ import LocalStrategy from "./localStrategy";
 import { JWT, LOCAL_LOGIN } from "./types";
 
 class Passport {
-  private readonly passport: passport.Authenticator;
   constructor() {
-    this.passport = passport;
     this.config();
   }
 
-  public initialize = (): Handler => this.passport.initialize();
+  public initialize = (): Handler => passport.initialize();
 
   private config = (): void => {
-    this.passport.use(LOCAL_LOGIN, LocalStrategy);
-    this.passport.use(JWT, JWTStrategy);
-    this.passport.serializeUser((user: { _id: number }, done) => {
+    passport.use(LOCAL_LOGIN, LocalStrategy);
+    passport.use(JWT, JWTStrategy);
+    passport.serializeUser((user: { _id: number }, done) => {
       done(null, user._id);
     });
-    this.passport.deserializeUser(
+    passport.deserializeUser(
       (id: number, done) => UserService.list({ _id: id })
         .then(([user]) => done(null, user))
         .catch((error) => done(error),

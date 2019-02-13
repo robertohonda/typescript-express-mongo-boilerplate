@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 import { JWT_OPTIONS, JWT_SECRET } from "../../config/config";
+import IService from "../../core/service/IService";
 import IUser from "./Interface";
 import UserModel from "./model";
 
-class UserService {
+class UserService implements IService {
 
   public signUp = async (user: IUser): Promise<IUser> => {
     return UserModel.create(user);

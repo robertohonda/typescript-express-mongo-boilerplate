@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 import bcrypt from "bcrypt";
+import ISchema from "../../core/schema/ISchema";
 import IUser from "./Interface";
 
 const userSchema = {
@@ -27,14 +28,14 @@ const userSchema = {
   },
 };
 
-class UserSchema {
-  private userSchema: mongoose.Schema;
+class UserSchema implements ISchema {
+  private readonly userSchema: mongoose.Schema;
   constructor() {
     this.userSchema = new mongoose.Schema(userSchema, { versionKey: false });
     this.config();
   }
 
-  public getUserSchema = (): mongoose.Schema => {
+  public getSchema = (): mongoose.Schema => {
     return this.userSchema;
   }
 
@@ -61,4 +62,4 @@ class UserSchema {
   }
 }
 
-export default new UserSchema().getUserSchema();
+export default new UserSchema().getSchema();

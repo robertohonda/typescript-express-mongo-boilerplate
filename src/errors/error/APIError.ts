@@ -23,6 +23,13 @@ class APIError extends Error implements IAPIError {
     this.stack = stack;
     this.errors = errors;
   }
+
+  public toJSON = () => {
+    return {
+      ...this,
+      message: this.message,
+    };
+  }
 }
 
 export default APIError;

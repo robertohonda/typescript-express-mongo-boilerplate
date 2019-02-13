@@ -3,6 +3,7 @@ import IUser from "modules/user/Interface";
 import { Strategy } from "passport-local";
 import APIError from "../../errors/error/APIError";
 import { USER_NOT_FOUND, WRONG_PASSWORD } from "../../errors/types/user";
+import {INCORRECT_PASSWORD , USER_NOT_REGISTERED} from "../../messages/user";
 import UserService from "../../modules/user/service";
 
 class LocalStrategy {
@@ -22,12 +23,12 @@ class LocalStrategy {
     try {
       const user: IUser = (await UserService.list({ email }))[0];
 
-      if (!user) { throw new APIError({ status: OK, type: USER_NOT_FOUND, message: "User not registered" }); }
+      if (!user) { throw new APIError({ status: OK, type: USER_NOT_FOUND, message: USER_NOT_REGISTERED }); }
 
       const validate = await user.isValidPassword(password);
       if (!validate) {
         throw new APIError({
-          message: "The password is incorrect",
+          message: INCORRECT_PASSWORD,
           status: OK,
           type: WRONG_PASSWORD,
         });

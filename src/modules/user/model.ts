@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
+import IModel from "../../core/model/IModel";
 import IUser from "./Interface";
 import UserSchema from "./schema";
 
-class UserModel {
-  public userModel: mongoose.Model<IUser>;
+class UserModel implements IModel {
+  private readonly userModel: mongoose.Model<IUser>;
   constructor() {
     this.userModel = mongoose.model<IUser>("User", UserSchema);
   }
-  public getUserModel = (): mongoose.Model<IUser> => {
+  public getModel = (): mongoose.Model<IUser> => {
     return this.userModel;
   }
 }
 
-export default new UserModel().getUserModel();
+export default new UserModel().getModel();

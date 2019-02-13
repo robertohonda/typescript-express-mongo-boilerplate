@@ -8,7 +8,7 @@ import IExpress from "./IExpress";
 
 import bodyParser from "body-parser";
 import cors from "cors";
-import ErrorMiddleware from "../middlewares/error";
+import ErrorMiddleware from "../../middlewares/error";
 import passport from "../passport";
 import mainRouter from "../router";
 import devConfig from "./devConfig";

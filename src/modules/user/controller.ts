@@ -5,7 +5,7 @@ import UserService from "./service";
 
 class UserController extends Controller implements IController {
   public list = (req: Request, res: Response, next: NextFunction): void => {
-    this.handleResponse(UserService.list(), req, res, next);
+    this.handleResponse(UserService.findAndCountAll(), req, res, next);
   }
 
   public signUp = (req: Request, res: Response, next: NextFunction): void => {

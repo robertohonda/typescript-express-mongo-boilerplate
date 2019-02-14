@@ -28,6 +28,19 @@ class UserService implements IService {
   public list = (params?: any): Promise<IUser[]> => {
     return UserModel.find(params).exec();
   }
+
+  public count = (params: any): Promise<number>  => {
+    return UserModel.count(params).exec();
+  }
+
+  public findAndCountAll = async (params?: any): Promise<{data: IUser[], count: number}> => {
+    const data = await this.list(params);
+    const count = await this.count(params);
+    return {
+      count,
+      data,
+    };
+  }
 }
 
 interface IResponseSignIn {

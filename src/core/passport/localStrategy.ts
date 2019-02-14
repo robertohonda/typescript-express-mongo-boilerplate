@@ -1,9 +1,9 @@
 import { OK } from "http-status";
 import IUser from "modules/user/Interface";
 import { Strategy } from "passport-local";
-import APIError from "../../errors/error/APIError";
+import APIError from "../../errors/APIError";
 import { USER_NOT_FOUND, WRONG_PASSWORD } from "../../errors/types/user";
-import {INCORRECT_PASSWORD , USER_NOT_REGISTERED} from "../../messages/user";
+import {INCORRECT_PASSWORD , USER_NOT_REGISTERED} from "../../messages/user/user";
 import UserService from "../../modules/user/service";
 
 class LocalStrategy {

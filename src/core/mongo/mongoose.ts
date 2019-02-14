@@ -7,7 +7,10 @@ class Database {
     this.setup();
   }
   public connect = (): void => {
-    mongoose.connect(DB_URI, { useNewUrlParser: true });
+    mongoose.connect(DB_URI, { useNewUrlParser: true }).catch((err) => {
+      // tslint:disable-next-line:no-console
+      console.error("An error occurred while connecting to the database", err);
+    });
   }
   private setup = (): void => {
     mongoose.plugin(uniqueValidator);

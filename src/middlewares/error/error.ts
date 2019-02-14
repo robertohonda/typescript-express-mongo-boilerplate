@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { NOT_FOUND as NOT_FOUND_STATUS } from "http-status";
 import { NODE_ENV } from "../../config/config";
-import APIError from "../../errors/error";
+import APIError from "../../errors/APIError";
 import { NOT_FOUND as NOT_FOUND_Type } from "../../errors/types/standard";
 import IError from "./IError";
 
 class ErrorMiddleware implements IError {
-  public handleError = (err: APIError, req: Request, res: Response, next: NextFunction): void => {
+  public handleError = (err: Error, req: Request, res: Response, next: NextFunction): void => {
     this.handleResponse(err, res);
   }
 
@@ -20,7 +20,7 @@ class ErrorMiddleware implements IError {
     this.handleResponse(err, res);
   }
 
-  public handleResponse = (err: APIError, res: Response): void => {
+  public handleResponse = (err: Error, res: Response): void => {
     const response = new APIError(err);
 
     if (NODE_ENV !== "development") {

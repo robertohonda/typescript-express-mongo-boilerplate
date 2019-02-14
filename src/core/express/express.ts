@@ -2,7 +2,7 @@
 import express from "express";
 import Mongoose from "../mongo/mongoose";
 
-import { NODE_ENV, PORT } from "../../config/config";
+import { NODE_ENV, PORT } from "../../config";
 import IEnvConfig from "./IEnvConfig";
 import IExpress from "./IExpress";
 

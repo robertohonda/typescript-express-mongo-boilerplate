@@ -1,5 +1,5 @@
 interface IAPIError {
-  status: number;
+  status?: number;
   message: string;
   type?: string;
   stack?: any;

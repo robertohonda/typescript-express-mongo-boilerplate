@@ -1,5 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
+import {JWT, LOCAL_LOGIN} from "../../core/passport/types";
 import IRouter from "../../core/router/IRouter";
 import UserController from "./controller";
 
@@ -14,9 +15,9 @@ class UserRouter implements IRouter {
     router.route("/signup")
       .post(UserController.signUp);
     router.route("/signin")
-      .post(passport.authenticate("local-login", { session: false }), UserController.signIn);
+      .post(passport.authenticate(LOCAL_LOGIN, { session: false }), UserController.signIn);
     router.route("/user")
-      .get(passport.authenticate("jwt", { session: false }), UserController.list);
+      .get(passport.authenticate(JWT, { session: false }), UserController.list);
     return router;
   }
 }

@@ -6,8 +6,10 @@ import UserModel from "./model";
 
 class UserService implements IService {
 
-  public signUp = async (user: IUser): Promise<IUser> => {
-    return UserModel.create(user);
+  public signUp = async (user: IUser): Promise<{user: IUser}> => {
+    return UserModel.create(user).then( (createdUser: IUser) => ({
+      user: createdUser,
+    }));
   }
 
   public signIn = async (user: IUser): Promise<IResponseSignIn> => {
